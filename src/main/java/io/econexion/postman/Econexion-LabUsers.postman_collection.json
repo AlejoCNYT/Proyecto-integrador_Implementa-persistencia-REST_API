@@ -1,0 +1,151 @@
+{
+  "info": {
+    "name": "Econexion - Lab Users (Mongo)",
+    "_postman_id": "b2fb8c10-5d0a-4c99-9c6f-ec1c6f0b1135",
+    "description": "CRUD for /lab/users. Includes tests to capture {{userId}} from create/get.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "userId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "1) Create User",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/lab/users",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Ada Lovelace\",\n  \"email\": \"ada@example.com\"\n}"
+        },
+        "description": "Creates a user and stores its id into {{userId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 201 or 200', function(){",
+              "  pm.expect(pm.response.code).to.be.oneOf([201,200]);",
+              "});",
+              "try {",
+              "  const data = pm.response.json();",
+              "  const id = data.id || data.uuid || data._id;",
+              "  if (id) {",
+              "    pm.collectionVariables.set('userId', id);",
+              "    console.log('userId set to', id);",
+              "  }",
+              "} catch(e) { console.warn('No JSON body'); }"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "2) List Users",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/lab/users"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 200', function(){ pm.response.to.have.status(200); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "3) Get by Id",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/lab/users/{{userId}}"
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "if(!pm.collectionVariables.get('userId')) { postman.setNextRequest('2) List Users'); }"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 200', function(){ pm.response.to.have.status(200); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "4) Update User",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/lab/users/{{userId}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Ada L.\",\n  \"email\": \"ada@example.com\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 200', function(){ pm.response.to.have.status(200); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "5) Delete User",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/lab/users/{{userId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 204 or 200', function(){ pm.expect(pm.response.code).to.be.oneOf([204,200]); });",
+              "pm.collectionVariables.unset('userId');"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    }
+  ]
+}

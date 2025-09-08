@@ -1,50 +1,49 @@
 package io.econexion.lab.users;
 
 import io.econexion.lab.users.dto.UserCreateRequest;
+import io.econexion.lab.users.dto.UserDto;
 import io.econexion.lab.users.dto.UserUpdateRequest;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.UUID;
+import java.util.List;
 
 @RestController
 @RequestMapping("/lab/users")
-@Profile("lab")
+// @Profile({"lab","mongo"}) // <-- opcional, sólo si quieres restringir. Mejor sin @Profile.
 public class LabUserController {
 
     private final LabUserService service;
-    public LabUserController(LabUserService service) { this.service = service; }
+
+    public LabUserController(LabUserService service) {
+        this.service = service;
+    }
 
     @GetMapping
-    public ResponseEntity<?> list() {
-        return ResponseEntity.ok(service.findAll());
+    public List<UserDto> list() {
+        return service.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> get(@PathVariable UUID id) {
-        return service.findById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public UserDto get(@PathVariable String id) {
+        return service.findById(id);
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody UserCreateRequest req) {
-        var created = service.create(req);
+    public ResponseEntity<UserDto> create(@RequestBody UserCreateRequest body) {
+        UserDto created = service.create(body);
         return ResponseEntity.created(URI.create("/lab/users/" + created.id())).body(created);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody UserUpdateRequest req) {
-        return service.update(id, req)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public UserDto update(@PathVariable String id, @RequestBody UserUpdateRequest body) {
+        return service.update(id, body);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable UUID id) {
-        return service.delete(id) ? ResponseEntity.noContent().build()
-                : ResponseEntity.notFound().build();
+    public ResponseEntity<Void> delete(@PathVariable String id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
