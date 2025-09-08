@@ -81,6 +81,8 @@ Example / Ejemplo:
 mongodb+srv://USER:PASS@CLUSTER/DBNAME?retryWrites=true&w=majority&appName=Econexion
 ```
 
+<img width="365" height="261" alt="imagen" src="https://github.com/user-attachments/assets/962246a2-a12d-42c1-a8a3-e4a889419bd3" />
+
 ### 2) Environment variables / Variables de entorno
 
 Create a `.env` (optional) or set variables in your shell.
