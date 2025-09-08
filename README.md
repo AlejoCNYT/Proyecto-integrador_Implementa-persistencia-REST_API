@@ -62,6 +62,10 @@ postman/
   Econexion-LabUsers.postman_collection.json
 ```
 
+<img width="1880" height="758" alt="Captura de pantalla 2025-09-07 195011" src="https://github.com/user-attachments/assets/c1e74e36-9c40-4100-b093-0a566ee04f89" />
+<img width="1900" height="923" alt="Captura de pantalla 2025-09-07 195003" src="https://github.com/user-attachments/assets/caca3e40-c7e4-4a7c-a864-e85f1f3f2026" />
+<img width="1890" height="1018" alt="Captura de pantalla 2025-09-07 194954" src="https://github.com/user-attachments/assets/45cbc261-6eb5-4eba-bf67-2bce20c1d396" />
+
 ---
 
 ## ⚙️ Configuration / Configuración
@@ -150,6 +154,8 @@ public interface LabUserRepository extends MongoRepository<LabUser, String> {
 
 ## ▶️ Run / Ejecutar
 
+<img width="715" height="183" alt="Captura de pantalla 2025-09-07 194705" src="https://github.com/user-attachments/assets/45e7fcae-bd0f-422a-942e-472589945ef3" />
+
 **Option A – Maven**
 ```bash
 # With env vars set / Con variables definidas
@@ -188,6 +194,12 @@ SPRING_PROFILES_ACTIVE=lab mvn spring-boot:run
   { "name": "Ada L.", "email": "ada@example.com" }
   ```
 - `DELETE /lab/users/{id}`
+
+<img width="1387" height="807" alt="Captura de pantalla 2025-09-07 194725" src="https://github.com/user-attachments/assets/8cca0391-a625-45c0-a63e-0d9597098d4f" />
+<img width="1383" height="754" alt="Captura de pantalla 2025-09-07 194735" src="https://github.com/user-attachments/assets/354f546b-646f-486e-8fc9-f6de63374831" />
+<img width="1368" height="505" alt="Captura de pantalla 2025-09-07 194744" src="https://github.com/user-attachments/assets/28ec7cad-e776-41c5-a255-4e746637d34d" />
+<img width="1381" height="805" alt="Captura de pantalla 2025-09-07 194756" src="https://github.com/user-attachments/assets/58c2ead5-7bd0-423a-967b-0fa02f67b1ba" />
+<img width="1368" height="809" alt="Captura de pantalla 2025-09-07 194804" src="https://github.com/user-attachments/assets/d1fb0597-aaee-4b56-a124-4eebc8708580" />
 
 **curl (Linux/macOS)**
 ```bash
